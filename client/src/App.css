@@ -1,3 +1,28 @@
+.signClass{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.logClass{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+button{
+  size: 50px;
+  border-radius: 10px;
+  background-color: green;
+  border-color: transparent;
+}
+button:hover{
+  background-color: rgb(4, 69, 44);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
