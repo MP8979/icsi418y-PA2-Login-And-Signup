@@ -28,6 +28,57 @@ app.get("/", (req, res) => {
     });
 });
 
+const db = client.db("pa2");
+const users = db.collection("users");
+
+app.post("/signup", async (req, res) => {
+    const {username, userPass, firstName, secondName} = req.body;
+    if(!username || !userPass || !firstName || !secondName){
+        return res.status(400).json({
+            message: "Required information is missing"
+        });
+    }
+    const result = await users.findOne({
+        username: username
+    });
+    if(result){
+        return res.status(409).json({
+            message: "Username already exists"
+        });
+    } else {
+        await users.insertOne({
+            username: username,
+            userPass: userPass
+        });
+        res.status(201).json({
+            message: "User created successfully"
+        });
+    }
+
+});
+
+app.post("/login", async (req, res) => {
+    const {username, userPass} = req.body;
+    const userResult = await users.findOne({
+        username: username
+    });
+    if(!userResult){
+        return res.status(401).json({
+            message: "Username or Password don't work."
+        });
+    } else {
+        if(userResult.userPass != userPass){
+            return res.status(401).json({
+                message: "Username or Password don't work."
+            });
+        } else {
+            return res.status(200).json({
+                message: "Successfully logged in."
+            });
+        }
+    }
+    
+});
 app.listen(9000, () => {
     console.log("Server running on port 9000");
 });
