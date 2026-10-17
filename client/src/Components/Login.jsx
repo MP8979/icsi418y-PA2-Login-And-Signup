@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import Project from './Project';
 
 function Login() {
     const [username, setUsername] = useState("");
     const [userPass, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     async function handleSubmit(event){
         event.preventDefault();
@@ -27,6 +29,7 @@ function Login() {
                 setMessage(data.message);
                 setUsername("");
                 setPassword("");
+                setIsLoggedIn(true);
             } else {
                 setMessage(data.message);
             }
@@ -38,7 +41,7 @@ function Login() {
         <div>
             <h2>Log In</h2>
             <h3>{message}</h3>
-                <form className='logClass' onSubmit={handleSubmit} >
+                {isLoggedIn ? (<Project/>) : (<form className='logClass' onSubmit={handleSubmit}>
                     <input
                         type="text"
                         placeholder='Username...'
@@ -52,7 +55,8 @@ function Login() {
                         onChange={(event) => setPassword(event.target.value)}
                     />
                     <button type='submit'> Submit </button>
-                </form>
+                </form>)}
+                
         </div>
     );
 }
